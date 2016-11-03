@@ -99,6 +99,10 @@ var ControlBar = React.createClass({
     this.props.controller.togglePlayPause();
   },
 
+  handlePlaybackSpeed: function () {
+    this.props.controller.handlePlaybackSpeed();
+  },
+
   handleShareClick: function() {
     this.props.controller.toggleShareScreen();
   },
@@ -282,6 +286,9 @@ var ControlBar = React.createClass({
     });
 
     var controlItemTemplates = {
+      "playbackSpeed": <div className="oo-playback-speed-container"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed} key="playbackSpeed">
+        <span class="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>{this.props.controller.state.playbackSpeed}</span>
+      </a></div>,
       "playPause": <a className="oo-play-pause oo-control-bar-item" onClick={this.handlePlayClick} key="playPause">
         <Icon {...this.props} icon={playIcon}
           style={dynamicStyles.iconCharacter}

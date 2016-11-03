@@ -129,7 +129,8 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       "isFullScreenSupported": false,
       "isVideoFullScreenSupported": false,
       "isFullWindow": false,
-      "autoPauseDisabled": false
+      "autoPauseDisabled": false,
+      "playbackSpeed": "1x"
     };
 
     this.init();
@@ -1091,6 +1092,28 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     toggleMute: function(muted) {
       this.mb.publish(OO.EVENTS.CHANGE_VOLUME, (muted ? 0 : 1));
+    },
+    
+    handlePlaybackSpeed: function () {
+      var videoElement = this.state.mainVideoElement[0];
+
+      if(videoElement){
+        var currentRate = videoElement.playbackRate;
+
+        if(currentRate === 1){
+            currentRate = 1.5;
+        }else if(currentRate === 1.5){
+            currentRate = 2;
+        }else {
+            currentRate = 1 ;
+        }
+
+        this.state.playbackSpeed = currentRate + "x";
+        videoElement.playbackRate = currentRate;
+        this.renderSkin();
+      }else{
+        console.error('Not a HTML5 Video. Playback speed button will not work.');
+      }
     },
 
     togglePlayPause: function() {
