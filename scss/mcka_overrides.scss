@@ -2,6 +2,54 @@
 // This files contains Mcka Ooyala XBlock Player specific styles
 // ---------------------------------------------------------------------------------------
 
+// Closed Captions
+.oo-popover-button-container {
+  cursor: default;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf');
+  background-color:#5080CA;
+  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+  text-indent:0;
+  display:inline-block;
+  color:white;
+  font-family:sans-serif;
+  font-size:15px;
+  font-style:normal;
+  line-height:24px;
+  text-decoration:none;
+  text-align:center;
+}
+
+.oo-closed-caption{
+  height: 24px;
+  line-height: 30px;
+  width: 40px;
+}
+
+.custom-cc-lang-block .oo-item{
+  display: inline-block;
+  margin: 5px;
+  color: #ffffff;
+}
+
+.oo-switch-container{
+  margin-left: 0;
+}
+
+.oo-popover {
+  bottom: 30px;
+}
+
 // Speed Button
 .oo-playback-speed-container {
   background-color:#5080CA;
@@ -31,4 +79,38 @@
   height: 24px;
   line-height: 22px;
   width: 40px;
+}
+
+// Playhead time / total time
+.custom-oo-content-time {
+  display: inline-block;
+  font-size: 12px;
+  padding: 0 10.55px;
+}
+
+// Scrubber Bar
+.oo-scrubber-bar-container{
+  margin: 0 8px;
+}
+
+.oo-scrubber-bar-container .oo-scrubber-bar-padding .oo-playhead-padding .oo-playhead{
+  background: rgb(225, 115, 49) none repeat scroll 0 0;
+  border: none;
+  height: 18px;
+  width: 18px;
+}
+
+// Control Bar
+.oo-control-bar-items-wrapper{
+  background: rgba(0, 0, 0, 0.4) none repeat scroll 0 0;
+  border-radius: 15px;
+  padding: 2px 8px;
+}
+
+// Volume Control
+.custom-oo-volume-popover{
+  background-color: rgba(26, 26, 26, 0.4);
+  left: 72%;
+  bottom: 140px;
+  transform: rotate(270deg);
 }

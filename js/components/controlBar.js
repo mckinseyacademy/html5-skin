@@ -78,6 +78,18 @@ var ControlBar = React.createClass({
     this.props.controller.seek(this.props.duration);
   },
 
+  handleCustomVolumeIconClick: function (evt) {
+    this.props.controller.startHideControlBarTimer();
+      evt.stopPropagation(); // W3C
+      evt.cancelBubble = true; // IE
+      if (!this.props.controller.state.volumeState.volumeSliderVisible){
+        this.props.controller.showVolumeSliderBar();
+      }
+      else {
+        this.props.controller.hideVolumeSliderBar();
+      }
+  },
+
   handleVolumeIconClick: function(evt) {
     if (this.isMobile){
       this.props.controller.startHideControlBarTimer();
@@ -260,7 +272,7 @@ var ControlBar = React.createClass({
     var isLiveNow = Math.abs(timeShift) < 1;
     var liveClick = isLiveNow ? null : this.handleLiveClick;
     var playheadTimeContent = isLiveStream ? (isLiveNow ? null : Utils.formatSeconds(timeShift)) : playheadTime;
-    var totalTimeContent = isLiveStream ? null : <span className="oo-total-time">{totalTime}</span>;
+    var totalTimeContent = isLiveStream ? null : <span className="custom-oo-content-time">{totalTime}</span>;
 
     // TODO: Update when implementing localization
     var liveText = Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.LIVE, this.props.localizableStrings);
@@ -272,6 +284,7 @@ var ControlBar = React.createClass({
 
     var videoQualityPopover = this.props.controller.state.videoQualityOptions.showVideoQualityPopover ? <Popover><VideoQualityPanel{...this.props} togglePopoverAction={this.toggleQualityPopover} popover={true}/></Popover> : null;
     var closedCaptionPopover = this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover ? <Popover popoverClassName="oo-popover oo-popover-pull-right"><ClosedCaptionPopover {...this.props} togglePopoverAction={this.toggleCaptionPopover}/></Popover> : null;
+    var volumeSliderPopover = this.props.controller.state.volumeState.volumeSliderVisible ? <Popover popoverClassName="oo-popover custom-oo-volume-popover">{volumeSlider}</Popover> : null;
 
     var qualityClass = ClassNames({
       "oo-quality": true,
@@ -281,12 +294,13 @@ var ControlBar = React.createClass({
 
     var captionClass = ClassNames({
       "oo-closed-caption": true,
-      "oo-control-bar-item": true,
+      "oo-control-bar-item": false,
+      "custom-control-bar-item": true,
       "oo-selected": this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover
     });
 
     var controlItemTemplates = {
-      "playbackSpeed": <div className="oo-playback-speed-container"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed} key="playbackSpeed">
+        "playbackSpeed": <div className="oo-playback-speed-container"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed} key="playbackSpeed">
         <span class="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>{this.props.controller.state.playbackSpeed}</span>
       </a></div>,
       "playPause": <a className="oo-play-pause oo-control-bar-item" onClick={this.handlePlayClick} key="playPause">
@@ -294,21 +308,15 @@ var ControlBar = React.createClass({
           style={dynamicStyles.iconCharacter}
           onMouseOver={this.highlight} onMouseOut={this.removeHighlight}/>
       </a>,
-
+      "playheadTime": <span className="custom-oo-content-time">{playheadTimeContent}</span>,
+      "scrubberBar": <ScrubberBar {...this.props} />,
+      "totalTime": totalTimeContent,
       "live": <a className={liveClass}
           ref="LiveButton"
           onClick={liveClick} key="live">
         <div className="oo-live-circle"></div>
         <span className="oo-live-text">{liveText}</span>
       </a>,
-
-      "volume": <div className="oo-volume oo-control-bar-item" key="volume">
-        <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
-          style={this.props.skinConfig.controlBar.iconStyle.inactive}
-          onClick={this.handleVolumeIconClick}
-          onMouseOver={this.volumeHighlight} onMouseOut={this.volumeRemoveHighlight}/>
-        {volumeControls}
-      </div>,
 
       "timeDuration": <a className="oo-time-duration oo-control-bar-duration" style={durationSetting} key="timeDuration">
         <span>{playheadTimeContent}</span>{totalTimeContent}
@@ -347,6 +355,14 @@ var ControlBar = React.createClass({
           </a>
         </div>
       ),
+
+      "volume": <div className="oo-volume oo-control-bar-item" key="volume">
+        {volumeSliderPopover}
+        <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
+          style={this.props.skinConfig.controlBar.iconStyle.inactive}
+          onClick={this.handleCustomVolumeIconClick}
+          onMouseOver={this.volumeHighlight} onMouseOut={this.volumeRemoveHighlight}/>
+      </div>,
 
       "share": <a className="oo-share oo-control-bar-item"
         onClick={this.handleShareClick} key="share">
@@ -478,8 +494,6 @@ var ControlBar = React.createClass({
 
     return (
       <div className={controlBarClass} style={controlBarStyle} onMouseUp={this.handleControlBarMouseUp} onTouchEnd={this.handleControlBarMouseUp}>
-        <ScrubberBar {...this.props} />
-
         <div className="oo-control-bar-items-wrapper">
           {controlBarItems}
         </div>
