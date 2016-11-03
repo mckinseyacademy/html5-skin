@@ -1,0 +1,34 @@
+// ---------------------------------------------------------------------------------------
+// This files contains Mcka Ooyala XBlock Player specific styles
+// ---------------------------------------------------------------------------------------
+
+// Speed Button
+.oo-playback-speed-container {
+  background-color:#5080CA;
+  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+}
+
+.custom-control-bar-item{
+  color: white;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.oo-playback-speed {
+  height: 24px;
+  line-height: 22px;
+  width: 40px;
+}
