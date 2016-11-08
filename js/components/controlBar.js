@@ -299,18 +299,18 @@ var ControlBar = React.createClass({
       "oo-selected": this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover
     });
 
+    var playPauseClass = "oo-icon oo-icon-"+playIcon+"-slick";
+    var fullScreenClass = "oo-icon oo-icon-"+fullscreenIcon+"-slick";
+    var volumeIconClass = "oo-icon oo-icon-"+volumeIcon;
+
     var controlItemTemplates = {
         "playbackSpeed": <div className="oo-playback-speed-container"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed} key="playbackSpeed">
-        <span class="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>{this.props.controller.state.playbackSpeed}</span>
+        <span className="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>{this.props.controller.state.playbackSpeed}</span>
       </a></div>,
       "playPause": <a className="oo-play-pause oo-control-bar-item" onClick={this.handlePlayClick} key="playPause">
-        <Icon {...this.props} icon={playIcon}
-          style={dynamicStyles.iconCharacter}
-          onMouseOver={this.highlight} onMouseOut={this.removeHighlight}/>
+        <span className={playPauseClass} style={dynamicStyles.iconCharacter} onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
       </a>,
-      "playheadTime": <span className="custom-oo-content-time">{playheadTimeContent}</span>,
       "scrubberBar": <ScrubberBar {...this.props} />,
-      "totalTime": totalTimeContent,
       "live": <a className={liveClass}
           ref="LiveButton"
           onClick={liveClick} key="live">
@@ -350,19 +350,19 @@ var ControlBar = React.createClass({
         <div className="oo-popover-button-container" key="closedCaption">
           {closedCaptionPopover}
           <a className={captionClass} onClick={this.handleClosedCaptionClick}>
-            <Icon {...this.props} icon="cc" style={dynamicStyles.iconCharacter}
-              onMouseOver={this.highlight} onMouseOut={this.removeHighlight}/>
+            <span className="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>CC</span>
           </a>
         </div>
       ),
 
-      "volume": <div className="oo-volume oo-control-bar-item" key="volume">
+      "volume":
+      <div className="volume-popover-container">
         {volumeSliderPopover}
-        <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
-          style={this.props.skinConfig.controlBar.iconStyle.inactive}
+          <div className="oo-volume oo-control-bar-item" key="volume">
+              <span className={volumeIconClass} 
           onClick={this.handleCustomVolumeIconClick}
-          onMouseOver={this.volumeHighlight} onMouseOut={this.volumeRemoveHighlight}/>
-      </div>,
+          onMouseOver={this.volumeHighlight} onMouseOut={this.volumeRemoveHighlight}></span>
+      </div></div>,
 
       "share": <a className="oo-share oo-control-bar-item"
         onClick={this.handleShareClick} key="share">
@@ -370,10 +370,9 @@ var ControlBar = React.createClass({
           onMouseOver={this.highlight} onMouseOut={this.removeHighlight}/>
       </a>,
 
-      "fullscreen": <a className="oo-fullscreen oo-control-bar-item"
+      "fullscreen": <a className="oo-fullscreen"
         onClick={this.handleFullscreenClick} key="fullscreen">
-        <Icon {...this.props} icon={fullscreenIcon} style={dynamicStyles.iconCharacter}
-          onMouseOver={this.highlight} onMouseOut={this.removeHighlight}/>
+          <span className={fullScreenClass} style={dynamicStyles.iconCharacter} onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
       </a>,
 
       "logo": <Logo key="logo" imageUrl={this.props.skinConfig.controlBar.logo.imageResource.url}

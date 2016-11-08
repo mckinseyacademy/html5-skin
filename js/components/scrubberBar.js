@@ -6,6 +6,7 @@ var React = require('react'),
     ResizeMixin = require('../mixins/resizeMixin'),
     Thumbnail = require('./thumbnail'),
     ThumbnailCarousel = require('./thumbnailCarousel'),
+    Utils = require('./utils'),
     CONSTANTS = require('../constants/constants');
 
 var ScrubberBar = React.createClass({
@@ -285,9 +286,27 @@ var ScrubberBar = React.createClass({
       }
     }
 
+    var totalTime = 0;
+    if (this.props.duration == null || typeof this.props.duration == 'undefined' || this.props.duration == ""){
+      totalTime = Utils.formatSeconds(0);
+    }
+    else {
+      totalTime = Utils.formatSeconds(this.props.duration);
+    }
+    var playheadTime = isFinite(parseInt(this.props.currentPlayhead)) ? Utils.formatSeconds(parseInt(this.props.currentPlayhead)) : null;
+    var isLiveStream = this.props.isLiveStream;
+    var durationSetting = {color: this.props.skinConfig.controlBar.iconStyle.inactive.color};
+    var timeShift = this.props.currentPlayhead - this.props.duration;
+    // checking timeShift < 1 seconds (not == 0) as processing of the click after we rewinded and then went live may take some time
+    var isLiveNow = Math.abs(timeShift) < 1;
+    var liveClick = isLiveNow ? null : this.handleLiveClick;
+    var playheadTimeContent = isLiveStream ? (isLiveNow ? null : Utils.formatSeconds(timeShift)) : playheadTime;
+    var totalTimeContent = isLiveStream ? null : <span className="custom-oo-content-time total-time">{totalTime}</span>;
+
     return (
       <div className="oo-scrubber-bar-container" ref="scrubberBarContainer" onMouseOver={scrubberBarMouseOver} onMouseOut={scrubberBarMouseOut} onMouseMove={scrubberBarMouseMove}>
-        {thumbnailContainer}
+          <span className="custom-oo-content-time current-time">{playheadTimeContent}</span>
+          {thumbnailContainer}
         {thumbnailCarousel}
         <div className="oo-scrubber-bar-padding" ref="scrubberBarPadding" onMouseDown={scrubberBarMouseDown} onTouchStart={scrubberBarMouseDown}>
           <div ref="scrubberBar" className={scrubberBarClassName} style={scrubberBarStyle}>
@@ -300,6 +319,7 @@ var ScrubberBar = React.createClass({
             </div>
           </div>
         </div>
+          {totalTimeContent}
       </div>
     );
   }
