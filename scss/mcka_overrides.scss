@@ -32,8 +32,10 @@
 
 .oo-closed-caption{
   height: 24px;
-  line-height: 30px;
+  line-height: 24px;
   width: 40px;
+  color: rgb(255, 255, 255);
+  opacity: 0.95;
 }
 
 .custom-cc-lang-block .oo-item{
@@ -68,16 +70,16 @@
 }
 
 .custom-control-bar-item{
-  color: white;
+  color: #ffffff;
   display: inline-block;
   font-size: 15px;
-  font-weight: bold;
+  font-family: sans-serif;
   text-align: center;
 }
 
 .oo-playback-speed {
   height: 24px;
-  line-height: 22px;
+  line-height: 24px;
   width: 40px;
 }
 
@@ -85,12 +87,37 @@
 .custom-oo-content-time {
   display: inline-block;
   font-size: 12px;
-  padding: 0 10.55px;
+  font-family: sans-serif;
+  position: absolute;
+}
+
+.custom-oo-content-time.total-time{
+  right: 0;
+  top: 5px;
+}
+
+.custom-oo-content-time.current-time{
+  left: 0;
+  top: 5px;
 }
 
 // Scrubber Bar
 .oo-scrubber-bar-container{
-  margin: 0 8px;
+  background: #000000 none repeat scroll 0 0;
+  border-radius: 12px;
+  height: 21px;
+  margin-left: -5px;
+  margin-right: 8px;
+}
+
+.oo-scrubber-bar-container .oo-scrubber-bar-padding{
+  left: 35px;
+  right: 35px;
+}
+
+.oo-scrubber-bar-container .oo-scrubber-bar-padding .oo-scrubber-bar{
+  background-color: rgba(175, 175, 175, 0.5);
+  height: 10px;
 }
 
 .oo-scrubber-bar-container .oo-scrubber-bar-padding .oo-playhead-padding .oo-playhead{
@@ -98,19 +125,117 @@
   border: none;
   height: 18px;
   width: 18px;
+  top: 30%;
 }
 
 // Control Bar
-.oo-control-bar-items-wrapper{
-  background: rgba(0, 0, 0, 0.4) none repeat scroll 0 0;
-  border-radius: 15px;
-  padding: 2px 8px;
+.oo-control-bar{
+  background: none;
+}
+
+.oo-control-bar .oo-control-bar-items-wrapper{
+  background: rgba(0, 0, 0, 0.65) none repeat scroll 0 0;
+  border-radius: 6px;
+  padding: 8px;
+  margin-top: 0;
 }
 
 // Volume Control
+.volume-popover-container{
+  border: 0 none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
 .custom-oo-volume-popover{
-  background-color: rgba(26, 26, 26, 0.4);
-  left: 72%;
-  bottom: 140px;
+  background-color: rgba(26, 26, 26, 0.0);
+  left: 0;
   transform: rotate(270deg);
+  right: 0;
+  width: 100px;
+  height: 100px;
+  box-shadow: none;
+}
+
+.oo-volume-slider{
+  width: 100px;
+  height: 0;
+  margin-left: 0;
+}
+
+.oo-slider-volume[type=range]{
+  width: 100px;
+}
+
+// Play/pause button
+.oo-icon.oo-icon-play-slick {
+    background-image: url("../assets/images/play.png");
+    background-position: 30px 37px;;
+    background-size: 45px 46px;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.oo-icon.oo-icon-pause-slick{
+  background-image: url("../assets/images/pause.png");
+    background-position: 30px 37px;
+    background-size: 45px 46px;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+// Maximize button
+.oo-icon.oo-icon.oo-icon-expand-slick{
+  background-image: url("../assets/images/maximize_button.png");
+    background-position: center center;
+    background-size: 45px 46px;
+    display: inline-block;
+    height: 24px;
+    width: 35px;
+}
+
+.oo-icon.oo-icon-compress-slick{
+  background-image: url("../assets/images/minimize.png");
+    background-position: center center;
+    background-size: 45px 46px;
+    display: inline-block;
+    height: 24px;
+    width: 35px;
+}
+
+// CC Text container
+.oo-text-track-container{
+  margin: 0;
+}
+
+// Volume Icon
+.oo-icon.oo-icon-volume{
+  background-image: url("../assets/images/volume.png");
+    display: inline-block;
+    height: 24px;
+    width: 26px;
+    color: rgb(255, 255, 255);
+    opacity: 0.95;
+}
+.oo-icon.oo-icon-volumeOff{
+  background-image: url("../assets/images/mute.png");
+    display: inline-block;
+    height: 24px;
+    width: 26px;
+  color: rgb(255, 255, 255);
+    opacity: 0.95;
+}
+
+// Volume Slider
+input[type=range] {
+  -webkit-appearance: none;
+  width: 50%;
+  margin: 13.8px 0;
+}
+input[type=range]:focus {
+  outline: none;
 }
