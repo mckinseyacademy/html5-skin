@@ -48,7 +48,7 @@ var Skin = React.createClass({
      The player's javascript api method does not update the skin state
      https://github.com/ooyala/html5-skin/issues/676
     */ 
-    window.changeCCLanguage = this.handleCCchange;
+    window['changeCCLanguage_' + this.props.controller.state.elementId] = this.handleCCchange;
   },
 
   handleCCchange: function(lang){
