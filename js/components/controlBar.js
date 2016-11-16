@@ -168,6 +168,16 @@ var ControlBar = React.createClass({
   },
 
   handleClosedCaptionClick: function() {
+    // just clicking on the CC button enables the captions
+    if(!this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover &&
+    !this.props.controller.state.closedCaptionOptions.enabled) {
+      this.props.controller.state.closedCaptionOptions.enabled = true;
+      this.props.controller.state.closedCaptionOptions['enabled'] = true;
+      this.props.controller.setClosedCaptionsLanguage();
+      this.props.controller.renderSkin();
+      this.props.controller.mb.publish(OO.EVENTS.SAVE_PLAYER_SETTINGS, this.state.persistentSettings);
+    }
+
     if(this.props.responsiveView == this.props.skinConfig.responsive.breakpoints.xs.id) {
       this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
     } else {
