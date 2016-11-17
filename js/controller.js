@@ -9,6 +9,12 @@ var React = require('react'),
     Fullscreen = require('screenfull'),
     Skin = require('./skin');
 
+/*
+To use V3 and V4 at the same time, We are using different references for both.
+OO refers to V3, while OOV4 refers to V4.
+ */
+var OO = OOV4;
+
 OO.plugin("Html5Skin", function (OO, _, $, W) {
   //Check if the player is at least v4. If not, the skin cannot load.
   if (!OO.playerParams.core_version || OO.playerParams.core_version <= 3) {
@@ -1266,6 +1272,14 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     toggleClosedCaptionPopOver: function() {
       this.state.closedCaptionOptions.showClosedCaptionPopover = !this.state.closedCaptionOptions.showClosedCaptionPopover;
       this.renderSkin();
+    },
+    
+    enableCaptions: function () {
+      this.state.closedCaptionOptions.enabled = true;
+      this.state.closedCaptionOptions['enabled'] = true;
+      this.setClosedCaptionsLanguage();
+      this.renderSkin();
+      this.mb.publish(OO.EVENTS.SAVE_PLAYER_SETTINGS, this.state.persistentSettings);  
     },
 
     closePopovers: function() {
