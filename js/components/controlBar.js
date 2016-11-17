@@ -171,11 +171,7 @@ var ControlBar = React.createClass({
     // just clicking on the CC button enables the captions
     if(!this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover &&
     !this.props.controller.state.closedCaptionOptions.enabled) {
-      this.props.controller.state.closedCaptionOptions.enabled = true;
-      this.props.controller.state.closedCaptionOptions['enabled'] = true;
-      this.props.controller.setClosedCaptionsLanguage();
-      this.props.controller.renderSkin();
-      this.props.controller.mb.publish(OO.EVENTS.SAVE_PLAYER_SETTINGS, this.state.persistentSettings);
+      this.props.controller.enableCaptions();
     }
 
     if(this.props.responsiveView == this.props.skinConfig.responsive.breakpoints.xs.id) {
@@ -314,13 +310,13 @@ var ControlBar = React.createClass({
     var volumeIconClass = "oo-icon oo-icon-"+volumeIcon;
 
     var controlItemTemplates = {
-        "playbackSpeed": <div className="oo-playback-speed-container"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed} key="playbackSpeed">
+        "playbackSpeed": <div className="oo-playback-speed-container" key="playbackSpeed"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed}>
         <span className="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>{this.props.controller.state.playbackSpeed}</span>
       </a></div>,
       "playPause": <a className="oo-play-pause oo-control-bar-item" onClick={this.handlePlayClick} key="playPause">
         <span className={playPauseClass} style={dynamicStyles.iconCharacter} onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
       </a>,
-      "scrubberBar": <ScrubberBar {...this.props} />,
+      "scrubberBar": <ScrubberBar {...this.props} key="scrubberBar" />,
       "live": <a className={liveClass}
           ref="LiveButton"
           onClick={liveClick} key="live">
@@ -366,7 +362,7 @@ var ControlBar = React.createClass({
       ),
 
       "volume":
-      <div className="volume-popover-container">
+      <div className="volume-popover-container" key="volumePopover">
         {volumeSliderPopover}
           <div className="oo-volume oo-control-bar-item" key="volume">
               <span className={volumeIconClass} 
