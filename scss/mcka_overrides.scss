@@ -28,6 +28,7 @@
   line-height:24px;
   text-decoration:none;
   text-align:center;
+  width: 57px;
 }
 
 .oo-closed-caption{
@@ -72,6 +73,7 @@
   -webkit-border-bottom-left-radius:20px;
   -moz-border-radius-bottomleft:20px;
   border-bottom-left-radius:20px;
+  width: 55px;
 }
 
 .custom-control-bar-item{
@@ -152,6 +154,7 @@
   margin: 0;
   padding: 0;
   position: relative;
+  width: 67px;
 }
 
 .custom-oo-volume-popover{
@@ -243,4 +246,9 @@ input[type=range] {
 }
 input[type=range]:focus {
   outline: none;
+}
+
+// fix for Safari
+a.oo-fullscreen{
+  width: 52px;
 }
