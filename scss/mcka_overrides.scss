@@ -147,20 +147,21 @@
   margin-top: 0;
 }
 
+.oo-icon.oo-icon-play-slick, .oo-icon.oo-icon-pause-slick, .oo-icon.oo-icon.oo-icon-expand-slick,
+.oo-icon.oo-icon-compress-slick, .oo-icon.oo-icon-volume, .oo-icon.oo-icon-volumeOff {
+    background: url("assets/images/sprites.png") no-repeat;
+}
+
 // Play/pause button
 .oo-icon.oo-icon-play-slick {
-    background-image: url("assets/images/play.png");
-    background-position: 30px 37px;;
-    background-size: 45px 46px;
+    background-position: -15px -10px;
     display: inline-block;
     height: 24px;
     width: 24px;
 }
 
 .oo-icon.oo-icon-pause-slick{
-  background-image: url("assets/images/pause.png");
-    background-position: 30px 37px;
-    background-size: 45px 46px;
+    background-position: -67px -10px;
     display: inline-block;
     height: 24px;
     width: 24px;
@@ -168,20 +169,16 @@
 
 // Maximize button
 .oo-icon.oo-icon.oo-icon-expand-slick{
-  background-image: url("assets/images/maximize_button.png");
-    background-position: center center;
-    background-size: 45px 46px;
+    background-position: -104px -11px;
     display: inline-block;
-    height: 24px;
+    height: 25px;
     width: 35px;
 }
 
 .oo-icon.oo-icon-compress-slick{
-  background-image: url("assets/images/minimize.png");
-    background-position: center center;
-    background-size: 45px 46px;
+    background-position: -155px -11px;
     display: inline-block;
-    height: 24px;
+    height: 25px;
     width: 35px;
 }
 
@@ -192,7 +189,7 @@
 
 // Volume Icon
 .oo-icon.oo-icon-volume{
-  background-image: url("assets/images/volume.png");
+    background-position: -212px -10px;
     display: inline-block;
     height: 24px;
     width: 26px;
@@ -200,11 +197,11 @@
     opacity: 0.95;
 }
 .oo-icon.oo-icon-volumeOff{
-  background-image: url("assets/images/mute.png");
+    background-position: -260px -10px;
     display: inline-block;
     height: 24px;
     width: 26px;
-  color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
     opacity: 0.95;
 }
 
