@@ -44,15 +44,34 @@ var Skin = React.createClass({
 
   componentDidMount: function () {
     window.addEventListener('mouseup', this.handleClickOutsidePlayer);
+
     /* Make CC change possible from outside the skin code
      The player's javascript api method does not update the skin state
      https://github.com/ooyala/html5-skin/issues/676
-    */ 
-    window['changeCCLanguage_' + this.props.controller.state.elementId] = this.handleCCchange;
+    */
+    var self = this;
+
+    window[this.props.controller.state.elementId] = {
+      changeCCLanguage: self.handleCCchange,
+      hideCCButton: self.handleHideCC
+    }
   },
 
   handleCCchange: function(lang){
     this.props.controller.onClosedCaptionChange('language', lang);
+  },
+  handleHideCC: function(){
+    var buttons = this.props.skinConfig.buttons.desktopContent;
+    var ccIndex = null;
+
+    for(var i=0; i < buttons.length; i++){
+        if(buttons[i].name == 'closedCaption'){
+            ccIndex = i;
+        }
+    }
+
+    if(ccIndex)
+        buttons.splice(ccIndex, 1);
   },
 
   componentWillUnmount: function () {

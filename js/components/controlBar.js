@@ -367,7 +367,7 @@ var ControlBar = React.createClass({
           <div className="oo-volume oo-control-bar-item" key="volume">
               <span className={volumeIconClass} 
           onClick={this.handleCustomVolumeIconClick}
-          onMouseOver={this.volumeHighlight} onMouseOut={this.volumeRemoveHighlight}></span>
+          onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
       </div></div>,
 
       "share": <a className="oo-share oo-control-bar-item"
