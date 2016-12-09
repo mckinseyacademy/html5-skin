@@ -85,6 +85,10 @@
   text-align: center;
 }
 
+.custom-control-bar-item span {
+    color: #fff !important;
+}
+
 .oo-playback-speed {
   height: 24px;
   line-height: 24px;
@@ -97,6 +101,7 @@
   font-size: 12px;
   font-family: "Open Sans", sans-serif;
   position: absolute;
+  color: #ffffff !important;
 }
 
 .custom-oo-content-time.total-time{
