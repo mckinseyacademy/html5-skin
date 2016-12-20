@@ -29,6 +29,9 @@ var OnOffSwitch = React.createClass({
 
     var offString = Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.OFF, this.props.localizableStrings);
     var onString = Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.ON, this.props.localizableStrings);
+    
+    offString = CONSTANTS.SKIN_TEXT.OFF;
+    onString = CONSTANTS.SKIN_TEXT.ON;
 
     return (
       <div className="oo-switch-container">
