@@ -78,16 +78,18 @@ var ControlBar = React.createClass({
     this.props.controller.seek(this.props.duration);
   },
 
-  handleCustomVolumeIconClick: function (evt) {
-    this.props.controller.startHideControlBarTimer();
-      evt.stopPropagation(); // W3C
-      evt.cancelBubble = true; // IE
-      if (!this.props.controller.state.volumeState.volumeSliderVisible){
-        this.props.controller.showVolumeSliderBar();
-      }
-      else {
-        this.props.controller.hideVolumeSliderBar();
-      }
+  handleCustomVolumeMouseOver: function (evt) {
+    this.props.controller.cancelTimer();
+    this.props.controller.showVolumeSliderBar();
+  },
+  handleCustomVolumeMouseOut: function (evt) {
+      this.props.controller.startHideVolumeSliderTimer();
+  },
+  volumePopoverMouseOver: function (evt) {
+    this.props.controller.cancelTimer();
+  },
+  volumePopoverMouseOut: function (evt) {
+    this.props.controller.hideVolumeSliderBar();
   },
 
   handleVolumeIconClick: function(evt) {
@@ -254,7 +256,7 @@ var ControlBar = React.createClass({
         onClick={this.handleVolumeClick}></a>);
     }
 
-    var volumeSlider = <div className="oo-volume-slider"><Slider value={parseFloat(this.props.controller.state.volumeState.volume)}
+    var volumeSlider = <div onMouseOver={this.volumePopoverMouseOver} onMouseOut={this.volumePopoverMouseOut} className="oo-volume-slider"><Slider value={parseFloat(this.props.controller.state.volumeState.volume)}
                         onChange={this.changeVolumeSlider}
                         className={"oo-slider oo-slider-volume"}
                         itemRef={"volumeSlider"}
@@ -366,8 +368,8 @@ var ControlBar = React.createClass({
         {volumeSliderPopover}
           <div className="oo-volume oo-control-bar-item" key="volume">
               <span className={volumeIconClass} 
-          onClick={this.handleCustomVolumeIconClick}
-          onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
+          onClick={this.handleVolumeIconClick}
+          onMouseOver={this.handleCustomVolumeMouseOver} onMouseOut={this.handleCustomVolumeMouseOut}></span>
       </div></div>,
 
       "share": <a className="oo-share oo-control-bar-item"

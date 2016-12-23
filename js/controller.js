@@ -1439,7 +1439,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
           if(this.state.volumeState.volumeSliderVisible === true){
             this.hideVolumeSliderBar();
           }
-        }.bind(this), 3000);
+        }.bind(this), 1000);
         this.state.timer = timer;
     },
 
