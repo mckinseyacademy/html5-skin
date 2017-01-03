@@ -13,6 +13,7 @@ var React = require('react'),
     ClosedCaptionPopover = require('./closed-caption/closedCaptionPopover'),
     Logo = require('./logo');
     Icon = require('./icon');
+    SpeedButton = require('./speedButton');
 
 var ControlBar = React.createClass({
   getInitialState: function() {
@@ -111,10 +112,6 @@ var ControlBar = React.createClass({
 
   handlePlayClick: function() {
     this.props.controller.togglePlayPause();
-  },
-
-  handlePlaybackSpeed: function () {
-    this.props.controller.handlePlaybackSpeed();
   },
 
   handleShareClick: function() {
@@ -312,9 +309,7 @@ var ControlBar = React.createClass({
     var volumeIconClass = "oo-icon oo-icon-"+volumeIcon;
 
     var controlItemTemplates = {
-        "playbackSpeed": <div className="oo-playback-speed-container" key="playbackSpeed"><a className="oo-playback-speed custom-control-bar-item" onClick={this.handlePlaybackSpeed}>
-        <span className="oo-icon" onMouseOver={this.highlight} onMouseOut={this.removeHighlight}>{this.props.controller.state.playbackSpeed}</span>
-      </a></div>,
+      "playbackSpeed": <SpeedButton {...this.props} key="speedButton" />,
       "playPause": <a className="oo-play-pause oo-control-bar-item" onClick={this.handlePlayClick} key="playPause">
         <span className={playPauseClass} style={dynamicStyles.iconCharacter} onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
       </a>,
@@ -367,7 +362,7 @@ var ControlBar = React.createClass({
       <div className="volume-popover-container" key="volumePopover">
         {volumeSliderPopover}
           <div className="oo-volume oo-control-bar-item" key="volume">
-              <span className={volumeIconClass} 
+              <span className={volumeIconClass}
           onClick={this.handleVolumeIconClick}
           onMouseOver={this.handleCustomVolumeMouseOver} onMouseOut={this.handleCustomVolumeMouseOut}></span>
       </div></div>,

@@ -135,8 +135,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       "isFullScreenSupported": false,
       "isVideoFullScreenSupported": false,
       "isFullWindow": false,
-      "autoPauseDisabled": false,
-      "playbackSpeed": "1x"
+      "autoPauseDisabled": false
     };
 
     this.init();
@@ -158,6 +157,10 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.mb.subscribe(OO.EVENTS.ERROR, "customerUi", _.bind(this.onErrorEvent, this));
       this.mb.addDependent(OO.EVENTS.PLAYBACK_READY, OO.EVENTS.UI_READY);
       this.state.isPlaybackReadySubscribed = true;
+
+      // Binding custom events. Will be triggered from client code
+      this.mb.subscribe('CcLanguageChanged', 'customerUi', _.bind(this.onClosedCaptionLanguageChange, this));
+      this.mb.subscribe('CcHide', 'customerUi', _.bind(this.onHideCC, this));
     },
 
     subscribeBasicPlaybackEvents: function () {
@@ -1099,28 +1102,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     toggleMute: function(muted) {
       this.mb.publish(OO.EVENTS.CHANGE_VOLUME, (muted ? 0 : 1));
     },
-    
-    handlePlaybackSpeed: function () {
-      var videoElement = this.state.mainVideoElement[0];
-
-      if(videoElement){
-        var currentRate = videoElement.playbackRate;
-
-        if(currentRate === 1){
-            currentRate = 1.5;
-        }else if(currentRate === 1.5){
-            currentRate = 2;
-        }else {
-            currentRate = 1 ;
-        }
-
-        this.state.playbackSpeed = currentRate + "x";
-        videoElement.playbackRate = currentRate;
-        this.renderSkin();
-      }else{
-        console.error('Not a HTML5 Video. Playback speed button will not work.');
-      }
-    },
 
     togglePlayPause: function() {
       switch (this.state.playerState) {
@@ -1346,6 +1327,23 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.renderSkin();
     },
 
+    onClosedCaptionLanguageChange: function(name, value){
+      this.onClosedCaptionChange('language', value);
+    },
+    onHideCC: function (name, value) {
+      // Remove CC button from Skin's buttons list
+      var buttons = this.skin.props.skinConfig.buttons.desktopContent;
+      var ccIndex = null;
+
+      for(var i=0; i < buttons.length; i++){
+          if(buttons[i].name == 'closedCaption'){
+              ccIndex = i;
+          }
+      }
+
+      if(ccIndex)
+          buttons.splice(ccIndex, 1);
+    },
     onClosedCaptionChange: function(name, value) {
       this.state.closedCaptionOptions[name] = this.state.persistentSettings.closedCaptionOptions[name] = value;
       if (name === 'language') {
