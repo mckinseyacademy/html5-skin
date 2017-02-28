@@ -175,6 +175,11 @@
     width: 22px;
 }
 
+// for start screen, don't show custom icon (prevents displaying two icons)
+div.oo-start-screen .oo-icon.oo-icon-play-slick{
+  background: none;
+}
+
 .oo-icon.oo-icon-pause-slick{
     background-position: -67px -9px;
     display: inline-block;
