@@ -1343,6 +1343,16 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
       if(ccIndex)
           buttons.splice(ccIndex, 1);
+
+      // turn-off CC as well
+      this._disableCC();
+    },
+    _disableCC: function(){
+        this.state.closedCaptionOptions.enabled = false;
+        this.state.persistentSettings.closedCaptionOptions['enabled'] = !!this.state.closedCaptionOption.enabled;
+        this.setClosedCaptionsLanguage();
+        this.renderSkin();
+        this.mb.publish(OO.EVENTS.SAVE_PLAYER_SETTINGS, this.state.persistentSettings);
     },
     onClosedCaptionChange: function(name, value) {
       this.state.closedCaptionOptions[name] = this.state.persistentSettings.closedCaptionOptions[name] = value;
