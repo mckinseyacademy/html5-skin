@@ -5,6 +5,7 @@ var Slider = require('./slider');
 var Utils = require('./utils');
 var MACROS = require('../constants/macros');
 var CONSTANTS = require('../constants/constants');
+Popover = require('../views/popover');
 
 var VolumeControls = React.createClass({
 
@@ -163,6 +164,35 @@ var VolumeControls = React.createClass({
     );
   },
 
+  volumePopoverMouseOver: function (evt) {
+    this.props.controller.cancelTimer();
+  },
+  volumePopoverMouseOut: function (evt) {
+    this.props.controller.hideVolumeSliderBar();
+  },
+
+  renderVolumePopover: function(){
+      var volumeSlider = <div onMouseOver={this.volumePopoverMouseOver} onMouseOut={this.volumePopoverMouseOut} className="oo-volume-slider">
+        <Slider
+          value={parseFloat(this.props.controller.state.volumeState.volume)}
+          className="oo-slider-volume"
+          itemRef="volumeSlider"
+          role="presentation"
+          minValue={0}
+          maxValue={1}
+          step={0.1}
+          usePercentageForAria={true}
+          ariaLabel={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
+          settingName={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
+          focusId={CONSTANTS.FOCUS_IDS.VOLUME_SLIDER}
+          onChange={this.handleVolumeSliderChange} />
+      </div>
+
+      var volumeSliderPopover = this.props.controller.state.volumeState.volumeSliderVisible ? <Popover popoverClassName="oo-popover custom-oo-volume-popover">{volumeSlider}</Popover> : null;
+
+      return volumeSliderPopover;
+  },
+
   render: function () {
     if (this.props.controller.state.isMobile) {
       if (this.props.controller.state.volumeState.volumeSliderVisible) {
@@ -171,7 +201,7 @@ var VolumeControls = React.createClass({
         return null;
       }
     } else {
-      return this.renderVolumeBars();
+      return this.renderVolumePopover();
     }
   }
 });

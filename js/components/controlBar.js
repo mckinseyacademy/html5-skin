@@ -15,7 +15,8 @@ var React = require('react'),
   ClosedCaptionPopover = require('./closed-caption/closedCaptionPopover'),
   Logo = require('./logo'),
   Icon = require('./icon'),
-  Tooltip = require('./tooltip');
+  Tooltip = require('./tooltip'),
+  SpeedButton = require('./speedButton');
 
 
 var ControlBar = React.createClass({
@@ -204,6 +205,13 @@ var ControlBar = React.createClass({
     else {
       this.props.controller.handleMuteClick();
     }
+  },
+  handleCustomVolumeMouseOver: function (evt) {
+    this.props.controller.cancelTimer();
+    this.props.controller.showVolumeSliderBar();
+  },
+  handleCustomVolumeMouseOut: function (evt) {
+      this.props.controller.startHideVolumeSliderTimer();
   },
 
   handlePlayClick: function () {
@@ -482,6 +490,12 @@ var ControlBar = React.createClass({
       "oo-selected": this.props.controller.state.closedCaptionOptions.showPopover
     });
 
+    var playPauseClass = "oo-icon oo-icon-"+playIcon+"-slick";
+    var fullScreenClass = "oo-icon oo-icon-"+fullscreenIcon+"-slick";
+    var volumeIconClass = "oo-icon oo-icon-"+volumeIcon;
+    var ccButtonStyle = {fontSize: "18px", paddingTop: "4px"};
+    var fullScreenStyle = {width: "52px", paddingLeft: 0}
+
     var selectedStyle = {};
     selectedStyle["color"] = this.props.skinConfig.general.accentColor ? this.props.skinConfig.general.accentColor : null;
 
@@ -491,6 +505,10 @@ var ControlBar = React.createClass({
     }
 
     var controlItemTemplates = {
+      "playbackSpeed": (function(alignment){
+        return <SpeedButton {...this.props} key="speedButton" />
+      }).bind(this),
+
       "playPause": (function (alignment) {
         return <AccessibleButton
           className="oo-play-pause oo-control-bar-item"
@@ -500,7 +518,7 @@ var ControlBar = React.createClass({
           key="playPause"
           focusId={CONSTANTS.FOCUS_IDS.PLAY_PAUSE}
           ariaLabel={playPauseAriaLabel}>
-          <Icon {...this.props} icon={playIcon} style={dynamicStyles.iconCharacter} />
+          <span className={playPauseClass} style={dynamicStyles.iconCharacter} onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
           <Tooltip enabled={isTooltipEnabled}
             alignment={alignment}
             responsivenessMultiplier={this.responsiveUIMultiple}
@@ -511,6 +529,10 @@ var ControlBar = React.createClass({
         </AccessibleButton>
       }).bind(this),
 
+       "scrubberBar": (function(alignment){
+         return <ScrubberBar {...this.props}  key="scrubberBar" />
+       }).bind(this),
+
       "live": (function (alignment) {
         return <a className={liveClass}
           ref="LiveButton"
@@ -520,23 +542,44 @@ var ControlBar = React.createClass({
         </a>
       }).bind(this),
 
+      "closedCaption": (function (alignment) {
+        return (
+          <div className="oo-popover-button-container" key="closedCaption">
+            <AccessibleButton
+              ref={function(e) { this.toggleButtons[CONSTANTS.MENU_OPTIONS.CLOSED_CAPTIONS] = e }.bind(this)}
+              style={ccButtonStyle}
+              className={captionClass}
+              focusId={CONSTANTS.FOCUS_IDS.CLOSED_CAPTIONS}
+              ariaLabel={CONSTANTS.ARIA_LABELS.CLOSED_CAPTIONS}
+              ariaHasPopup={true}
+              ariaExpanded={this.props.controller.state.closedCaptionOptions.showPopover ? true : null}
+              onClick={this.handleClosedCaptionClick}>
+              <Icon {...this.props} icon="cc" style={dynamicStyles.iconCharacter}
+                onMouseOver={this.highlight} onMouseOut={this.removeHighlight} />
+              <Tooltip enabled={isTooltipEnabled} text={Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.CLOSED_CAPTIONS, this.props.localizableStrings)} responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment} />
+            </AccessibleButton>
+            {this.props.controller.state.closedCaptionOptions.showPopover &&
+              <Popover
+                popoverClassName="oo-popover oo-popover-pull-right"
+                autoFocus={this.props.controller.state.closedCaptionOptions.autoFocus}
+                closeActionEnabled={this.props.controller.state.accessibilityControlsEnabled}
+                closeAction={this.closeCaptionPopover}>
+                <ClosedCaptionPopover {...this.props} togglePopoverAction={this.closeCaptionPopover} />
+              </Popover>
+            }
+          </div>
+        )
+      }).bind(this),
+
       "volume": (function (alignment) {
-        return <div className="oo-volume oo-control-bar-item" key="volume">
-          <AccessibleButton
-            className="oo-mute-unmute oo-control-bar-item"
-            onClick={this.handleVolumeIconClick}
-            onMouseOver={this.highlight}
-            onMouseOut={this.removeHighlight}
-            focusId={CONSTANTS.FOCUS_IDS.MUTE_UNMUTE}
-            ariaLabel={volumeAriaLabel}>
-            <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
-              style={this.props.skinConfig.controlBar.iconStyle.inactive} />
-            <Tooltip enabled={isTooltipEnabled}
-              text={mutedInUi ? Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.UNMUTE, this.props.localizableStrings) : Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.MUTE, this.props.localizableStrings)}
-              responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment}>
-            </Tooltip>
-          </AccessibleButton>
+        return <div className="volume-popover-container" key="volumePopover">
           <VolumeControls {...this.props} />
+           <div className="oo-volume oo-control-bar-item" key="volume">
+            <span className={volumeIconClass}
+              onClick={this.handleVolumeIconClick}
+              onMouseOver={this.handleCustomVolumeMouseOver} onMouseOut={this.handleCustomVolumeMouseOut}>
+            </span>
+           </div>
         </div>
       }).bind(this),
 
@@ -598,35 +641,6 @@ var ControlBar = React.createClass({
         </a>
       }).bind(this),
 
-      "closedCaption": (function (alignment) {
-        return (
-          <div className="oo-popover-button-container" key="closedCaption">
-            <AccessibleButton
-              ref={function(e) { this.toggleButtons[CONSTANTS.MENU_OPTIONS.CLOSED_CAPTIONS] = e }.bind(this)}
-              style={selectedStyle}
-              className={captionClass}
-              focusId={CONSTANTS.FOCUS_IDS.CLOSED_CAPTIONS}
-              ariaLabel={CONSTANTS.ARIA_LABELS.CLOSED_CAPTIONS}
-              ariaHasPopup={true}
-              ariaExpanded={this.props.controller.state.closedCaptionOptions.showPopover ? true : null}
-              onClick={this.handleClosedCaptionClick}>
-              <Icon {...this.props} icon="cc" style={dynamicStyles.iconCharacter}
-                onMouseOver={this.highlight} onMouseOut={this.removeHighlight} />
-              <Tooltip enabled={isTooltipEnabled} text={Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.CLOSED_CAPTIONS, this.props.localizableStrings)} responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment} />
-            </AccessibleButton>
-            {this.props.controller.state.closedCaptionOptions.showPopover &&
-              <Popover
-                popoverClassName="oo-popover oo-popover-pull-right"
-                autoFocus={this.props.controller.state.closedCaptionOptions.autoFocus}
-                closeActionEnabled={this.props.controller.state.accessibilityControlsEnabled}
-                closeAction={this.closeCaptionPopover}>
-                <ClosedCaptionPopover {...this.props} togglePopoverAction={this.closeCaptionPopover} />
-              </Popover>
-            }
-          </div>
-        )
-      }).bind(this),
-
       "share": (function (alignment) {
         return <a className="oo-share oo-control-bar-item"
           onClick={this.handleShareClick} key="share" aria-hidden="true">
@@ -656,13 +670,14 @@ var ControlBar = React.createClass({
     "fullscreen": (function (alignment) {
         return <AccessibleButton
           className="oo-fullscreen oo-control-bar-item"
+          style={fullScreenStyle}
           onClick={this.handleFullscreenClick}
           onMouseOver={this.highlight}
           onMouseOut={this.removeHighlight}
           key="fullscreen"
           focusId={CONSTANTS.FOCUS_IDS.FULLSCREEN}
           ariaLabel={fullscreenAriaLabel}>
-          <Icon {...this.props} icon={fullscreenIcon} style={dynamicStyles.iconCharacter} />
+          <span className={fullScreenClass} style={dynamicStyles.iconCharacter} onMouseOver={this.highlight} onMouseOut={this.removeHighlight}></span>
           <Tooltip enabled={isTooltipEnabled} responsivenessMultiplier={this.responsiveUIMultiple} text={this.props.controller.state.fullscreen ?
             Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.EXIT_FULL_SCREEN, this.props.localizableStrings) : Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.FULL_SCREEN, this.props.localizableStrings)}
             bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment} />
@@ -813,7 +828,7 @@ var ControlBar = React.createClass({
         onBlur={this.handleControlBarBlur}
         onMouseUp={this.handleControlBarMouseUp}
         onTouchEnd={this.handleControlBarMouseUp}>
-        <ScrubberBar {...this.props} />
+
 
         <div className="oo-control-bar-items-wrapper">
           {controlBarItems}

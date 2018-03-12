@@ -1,0 +1,242 @@
+// ---------------------------------------------------------------------------------------
+// This files contains Mcka Ooyala XBlock Player specific styles
+// ---------------------------------------------------------------------------------------
+
+// Closed Captions
+.oo-popover-button-container {
+  cursor: default;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf');
+  background-color:#3384CA;
+  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+  text-indent:0;
+  display:inline-block;
+  color:white;
+  font-family:"Open Sans", sans-serif;
+  font-size:14px;
+  font-style:normal;
+  line-height:24px;
+  text-decoration:none;
+  text-align:center;
+  width: 57px;
+}
+
+.oo-switch-container .oo-switch-element {
+  margin-left: 0;
+}
+
+.oo-closed-caption{
+  height: 24px;
+  line-height: 24px;
+  width: 40px;
+  color: rgb(255, 255, 255);
+  opacity: 0.95;
+}
+
+.custom-cc-lang-block .oo-item{
+  display: inline-block;
+  margin: 5px;
+  color: #ffffff;
+}
+
+.custom-cc-lang-block .oo-item.oo-item-selected{
+  color: rgb(225, 115, 49);
+  font-weight: bold;
+}
+
+.oo-switch-container{
+  margin-left: 0;
+}
+
+.oo-popover {
+  bottom: 30px;
+}
+
+// Speed Button
+.oo-playback-speed-container {
+  background-color:#3384CA;
+  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+  width: 55px;
+}
+
+.custom-control-bar-item{
+  color: #ffffff;
+  display: inline-block;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.custom-control-bar-item span {
+    color: #fff !important;
+}
+
+.oo-playback-speed {
+  height: 24px;
+  line-height: 24px;
+  width: 40px;
+}
+
+// Playhead time / total time
+.custom-oo-content-time {
+  display: inline-block;
+  font-size: 12px;
+  font-family: "Open Sans", sans-serif;
+  position: absolute;
+  color: #ffffff !important;
+  top: 5px;
+}
+
+.custom-oo-content-time.total-time{
+  right: 5px;
+}
+
+.custom-oo-content-time.current-time{
+  left: 5px;
+}
+
+// Scrubber Bar
+.oo-scrubber-bar-container{
+  background: #000000 none repeat scroll 0 0;
+  border-radius: 12px;
+  height: 21px;
+  margin-left: -5px;
+  margin-right: 8px;
+}
+
+.oo-scrubber-bar-container .oo-scrubber-bar-padding{
+  left: 45px;
+  right: 40px;
+}
+
+.oo-scrubber-bar-container .oo-scrubber-bar-padding .oo-scrubber-bar{
+  background-color: rgba(175, 175, 175, 0.5);
+  height: 10px;
+  top: 2px;
+  left: 2px;
+}
+
+.oo-scrubber-bar-container .oo-scrubber-bar-padding .oo-playhead-padding .oo-playhead{
+  background: rgb(225, 115, 49) none repeat scroll 0 0;
+  border: none;
+  height: 18px;
+  width: 18px;
+  top: 30%;
+}
+
+// Control Bar
+.oo-control-bar{
+  background: none;
+}
+
+.oo-control-bar .oo-control-bar-items-wrapper{
+  background: rgba(0, 0, 0, 0.65) none repeat scroll 0 0;
+  border-radius: 6px;
+  padding: 8px;
+  margin-top: 0;
+}
+
+.oo-icon.oo-icon-play-slick, .oo-icon.oo-icon-pause-slick, .oo-icon.oo-icon.oo-icon-expand-slick,
+.oo-icon.oo-icon-compress-slick, .oo-icon.oo-icon-volume, .oo-icon.oo-icon-volumeOff {
+    background: url("assets/images/sprites.png") no-repeat;
+}
+
+// Play/pause button
+.oo-play-pause.oo-control-bar-item {
+    padding: 0 10px 0 10px !important;
+}
+
+.oo-icon.oo-icon-play-slick {
+    background-position: -15px -9px;
+    display: inline-block;
+    height: 24px;
+    width: 22px;
+}
+
+// for start screen, don't show custom icon (prevents displaying two icons)
+div.oo-start-screen .oo-icon.oo-icon-play-slick{
+  background: none;
+}
+
+.oo-icon.oo-icon-pause-slick{
+    background-position: -67px -9px;
+    display: inline-block;
+    height: 24px;
+    width: 22px;
+}
+
+// Maximize button
+.oo-icon.oo-icon.oo-icon-expand-slick{
+    background-position: -104px -11px;
+    display: inline-block;
+    height: 25px;
+    width: 35px;
+}
+
+.oo-icon.oo-icon-compress-slick{
+    background-position: -155px -11px;
+    display: inline-block;
+    height: 25px;
+    width: 35px;
+}
+
+// CC Text container
+.oo-text-track-container{
+  margin: 0;
+}
+
+// Volume Icon
+.oo-icon.oo-icon-volume{
+    background-position: -212px -10px;
+    display: inline-block;
+    height: 24px;
+    width: 26px;
+    color: rgb(255, 255, 255);
+    opacity: 0.95;
+}
+.oo-icon.oo-icon-volumeOff{
+    background-position: -260px -10px;
+    display: inline-block;
+    height: 24px;
+    width: 26px;
+    color: rgb(255, 255, 255);
+    opacity: 0.95;
+}
+
+// Volume Control
+.volume-popover-container{
+  border: 0 none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 67px;
+}
+.custom-oo-volume-popover{
+  left: -70%;
+  bottom: 72px;
+  transform: rotate(270deg);
+}
+

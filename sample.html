@@ -2,29 +2,26 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="//player.ooyala.com/static/v4/stable/4.20.8/core.min.js"></script>
-  <script src="//player.ooyala.com/static/v4/stable/4.20.8/video-plugin/main_html5.min.js"></script>
-  <script src="//player.ooyala.com/static/v4/stable/4.20.8/video-plugin/osmf_flash.min.js"></script>
+  <script src="//player.ooyala.com/static/v4/stable/4.20.8/core.js"></script>
+  <script src="//player.ooyala.com/static/v4/stable/4.20.8/video-plugin/main_html5.js"></script>
   <script src="//player.ooyala.com/static/v4/stable/4.20.8/video-plugin/bit_wrapper.min.js"></script>
-  <script src="//player.ooyala.com/static/v4/stable/4.20.8/other-plugin/discovery_api.min.js"></script>
-  <script src="//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/html5-skin.min.js"></script>
-  <link rel="stylesheet" href="//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/html5-skin.min.css"/>
+  <script src="build/html5-skin.js"></script>
+  <link rel="stylesheet" href="build/html5-skin.css"/>
 </head>
 
 <body>
-<div id='container'></div>
+<div id='container' style="width: 670px"></div>
 <script>
   var playerParam = {
-    "pcode": "5zb2wxOlZcNCe_HVT3a6cawW298X",
-    "playerBrandingId": "26e2e3c1049c4e70ae08a242638b5c40",
-    'debug':true,
+    "pcode": "5zdHcxOlM7fQJOMrCdwnnu16WP-d",
+    "playerBrandingId": "d3cf86763d9049329ffc74fb94b794b8",
+    'debug':false,
     "skin": {
-      "config": "",
-      "inline": {"shareScreen": {"embed": {"source": "<iframe width='640' height='480' frameborder='0' allowfullscreen src='//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/iframe.html?ec=<ASSET_ID>&pbid=<PLAYER_ID>&pcode=<PUBLISHER_ID>'></iframe>"}}}
+      "config": "build/skin.json"
     }
   };
   OO.ready(function() {
-    window.pp = OO.Player.create('container', 'RmZW4zcDo6KqkTIhn1LnowEZyUYn5Tb2', playerParam);
+    window.pp = OO.Player.create('container', 'J0Z3l1czqMhfSlvd8nfLtKN8EGg4p7W_', playerParam);
   });
 </script>
 

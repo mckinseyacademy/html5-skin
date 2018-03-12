@@ -187,6 +187,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.mb.subscribe(OO.EVENTS.ERROR, "customerUi", _.bind(this.onErrorEvent, this));
       this.mb.addDependent(OO.EVENTS.PLAYBACK_READY, OO.EVENTS.UI_READY);
       this.state.isPlaybackReadySubscribed = true;
+      // Binding custom events. Will be triggered from client code
+      this.mb.subscribe('CcLanguageChanged', 'customerUi', _.bind(this.onClosedCaptionLanguageChange, this));
+      this.mb.subscribe('CcHide', 'customerUi', _.bind(this.onHideCC, this));
     },
 
     subscribeBasicPlaybackEvents: function () {
@@ -1691,6 +1694,33 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.state.videoQualityOptions.showPopover = false;
       this.renderSkin();
     },
+    onClosedCaptionLanguageChange: function(name, value){
+      this.onClosedCaptionChange('language', value);
+    },
+    onHideCC: function (name, value) {
+      // Remove CC button from Skin's buttons list
+      var buttons = this.skin.props.skinConfig.buttons.desktopContent;
+      var ccIndex = null;
+
+      for(var i=0; i < buttons.length; i++){
+          if(buttons[i].name == 'closedCaption'){
+              ccIndex = i;
+          }
+      }
+
+      if(ccIndex)
+          buttons.splice(ccIndex, 1);
+
+      // turn-off CC as well
+      this._disableCC();
+    },
+    _disableCC: function(){
+        this.state.closedCaptionOptions.enabled = false;
+        this.state.persistentSettings.closedCaptionOptions['enabled'] = !!this.state.closedCaptionOption.enabled;
+        this.setClosedCaptionsLanguage();
+        this.renderSkin();
+        this.mb.publish(OO.EVENTS.SAVE_PLAYER_SETTINGS, this.state.persistentSettings);
+    },
 
     receiveVideoQualityChangeEvent: function(event, targetBitrate) {
         this.state.videoQualityOptions.selectedBitrate = {
@@ -1922,7 +1952,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
           if(this.state.volumeState.volumeSliderVisible === true){
             this.hideVolumeSliderBar();
           }
-        }.bind(this), 3000);
+        }.bind(this), 1000);
         this.state.timer = timer;
     },
 
